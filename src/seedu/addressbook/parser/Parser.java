@@ -1,8 +1,5 @@
 package seedu.addressbook.parser;
 
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,6 +10,9 @@ import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.*;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.tag.Tag;
+
+import static seedu.addressbook.common.Messages.*;
 
 /**
  * Parses user input.
@@ -79,7 +79,7 @@ public class Parser {
             return new ListCommand();
 
         case ListTagCommand.COMMAND_WORD:
-            return new ListTagCommand(arguments);
+            return prepareListTag(arguments);
 
         case ViewCommand.COMMAND_WORD:
             return prepareView(arguments);
@@ -202,6 +202,23 @@ public class Parser {
                     ViewAllCommand.MESSAGE_USAGE));
         } catch (NumberFormatException nfe) {
             return new IncorrectCommand(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the list tag command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareListTag(String args) {
+
+        try {
+            final Tag tag = new Tag(args);
+            return new ListTagCommand(tag);
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_TAG,
+                    ListTagCommand.MESSAGE_USAGE));
         }
     }
 

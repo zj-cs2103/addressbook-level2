@@ -1,6 +1,9 @@
 package seedu.addressbook.commands;
 
+import seedu.addressbook.common.Messages;
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.tag.Tag;
 
 import java.util.*;
 
@@ -16,15 +19,15 @@ public class ListTagCommand extends Command {
             + "Parameters: TAG\n"
             + "Example: " + COMMAND_WORD + " friend";
 
-    public final String tag;
+    public final Tag tag;
 
-    public ListTagCommand(String tag) {
+    public ListTagCommand(Tag tag) {
         this.tag = tag;
     }
 
     @Override
     public CommandResult execute() {
-        final List<ReadOnlyPerson> personsFound = getPersonsWithNameContainingAnyKeyword(tag);
+        final List<ReadOnlyPerson> personsFound = getPersonsWithNameContainingAnyTag(tag);
         return new CommandResult(getMessageForPersonListShownSummary(personsFound), personsFound);
     }
 
@@ -34,7 +37,7 @@ public class ListTagCommand extends Command {
      * @param tag for searching
      * @return list of persons found
      */
-    private List<ReadOnlyPerson> getPersonsWithNameContainingAnyKeyword(String tag) {
+    private List<ReadOnlyPerson> getPersonsWithNameContainingAnyTag(Tag tag) {
         final List<ReadOnlyPerson> matchedPersons = new ArrayList<>();
         for (ReadOnlyPerson person : addressBook.getAllPersons()) {
             if (person.getTags().contains(tag)) {
