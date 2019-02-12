@@ -1,11 +1,10 @@
 package seedu.addressbook.commands;
 
-import seedu.addressbook.common.Messages;
-import seedu.addressbook.data.exception.IllegalValueException;
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.tag.Tag;
-
-import java.util.*;
 
 /**
  * Lists all persons in the address book tagged with a certain tag to the user.

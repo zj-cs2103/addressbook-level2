@@ -50,8 +50,7 @@ public class ViewCommandTest {
                                              new Email("some@hey.go", true),
                                              new Address("nus", false),
                                              Collections.emptySet());
-        List<ReadOnlyPerson> listWithExtraPerson
-                = new ArrayList<ReadOnlyPerson>(listWithAllTypicalPersons);
+        List<ReadOnlyPerson> listWithExtraPerson = new ArrayList<ReadOnlyPerson>(listWithAllTypicalPersons);
         listWithExtraPerson.add(stranger);
 
         // empty addressbook
