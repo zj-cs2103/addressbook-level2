@@ -1,5 +1,9 @@
 package seedu.addressbook.commands;
 
+import seedu.addressbook.data.person.ReadOnlyPerson;
+
+import java.util.*;
+
 /**
  * Lists all persons in the address book tagged with a certain tag to the user.
  */
@@ -12,11 +16,32 @@ public class ListTagCommand extends Command {
             + "Parameters: TAG\n"
             + "Example: " + COMMAND_WORD + " friend";
 
-    public static final String MESSAGE_LIST_TAG = "Persons with tag: %s\n";
+    public final String tag;
+
+    public ListTagCommand(String tag) {
+        this.tag = tag;
+    }
 
     @Override
     public CommandResult execute() {
-        return new CommandResult(MESSAGE_LIST_TAG);
+        final List<ReadOnlyPerson> personsFound = getPersonsWithNameContainingAnyKeyword(tag);
+        return new CommandResult(getMessageForPersonListShownSummary(personsFound), personsFound);
+    }
+
+    /**
+     * Retrieves all persons in the address book who are tagged with a certain tag.
+     *
+     * @param tag for searching
+     * @return list of persons found
+     */
+    private List<ReadOnlyPerson> getPersonsWithNameContainingAnyKeyword(String tag) {
+        final List<ReadOnlyPerson> matchedPersons = new ArrayList<>();
+        for (ReadOnlyPerson person : addressBook.getAllPersons()) {
+            if (person.getTags().contains(tag)) {
+                matchedPersons.add(person);
+            }
+        }
+        return matchedPersons;
     }
 
 }
